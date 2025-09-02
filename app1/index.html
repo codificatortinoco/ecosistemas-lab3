@@ -10,22 +10,55 @@
 
 <body>
     <h1>Consumer App</h1>
-    <section>
-        <h2>Stores</h2>
-        <ul id="stores"></ul>
+    
+    <!-- Login/Register Section -->
+    <section id="auth-section">
+        <h2>Login / Register</h2>
+        <div>
+            <input id="username" placeholder="Username" />
+            <input id="password" placeholder="Password" type="password" />
+            <button id="login-btn">Login</button>
+            <button id="register-btn">Register</button>
+        </div>
+        <div id="register-fields" style="display: none;">
+            <input id="user-name" placeholder="Full Name" />
+            <input id="user-address" placeholder="Address" />
+        </div>
     </section>
-    <section>
-        <h2>Products</h2>
-        <ul id="products"></ul>
-    </section>
-    <section>
-        <h2>Cart</h2>
-        <ul id="cart"></ul>
-        <button id="place-order">Place Order</button>
-    </section>
-    <section>
-        <h2>My Orders</h2>
-        <ul id="orders"></ul>
+    
+    <!-- Shopping Section (hidden until login) -->
+    <section id="shopping-section" style="display: none;">
+        <div>
+            <span id="current-user"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+        <section>
+            <h2>Stores</h2>
+            <ul id="stores"></ul>
+        </section>
+        <section>
+            <h2>Products</h2>
+            <ul id="products"></ul>
+        </section>
+        <section>
+            <h2>Cart</h2>
+            <ul id="cart"></ul>
+            <div>
+                <h3>Payment Method</h3>
+                <select id="payment-method">
+                    <option value="cash">Cash on Delivery</option>
+                    <option value="card">Credit/Debit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="apple_pay">Apple Pay</option>
+                    <option value="google_pay">Google Pay</option>
+                </select>
+            </div>
+            <button id="place-order">Place Order</button>
+        </section>
+        <section>
+            <h2>My Orders</h2>
+            <ul id="orders"></ul>
+        </section>
     </section>
     <script src="index.js"></script>
 </body>

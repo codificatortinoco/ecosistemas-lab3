@@ -10,6 +10,7 @@ const registerBtn = document.getElementById("register-btn")
 const registerFields = document.getElementById("register-fields")
 const storeNameInput = document.getElementById("store-name")
 const storeDescInput = document.getElementById("store-description")
+const storeAddressInput = document.getElementById("store-address")
 const currentStoreSpan = document.getElementById("current-store")
 const logoutBtn = document.getElementById("logout-btn")
 
@@ -20,6 +21,7 @@ const ordersUl = document.getElementById("orders")
 const createBtn = document.getElementById("create-product")
 const prodName = document.getElementById("prod-name")
 const prodPrice = document.getElementById("prod-price")
+const prodStock = document.getElementById("prod-stock")
 
 let currentStore = null
 let authToken = null
@@ -66,13 +68,14 @@ function register() {
   const password = passwordInput.value.trim()
   const storeName = storeNameInput.value.trim()
   const storeDesc = storeDescInput.value.trim()
+  const storeAddress = storeAddressInput.value.trim()
   
   if (!username || !password || !storeName) return alert("Enter all required fields")
   
   fetch(`${API}/stores/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password, name: storeName, description: storeDesc })
+    body: JSON.stringify({ username, password, name: storeName, description: storeDesc, address: storeAddress })
   })
     .then(r => r.json())
     .then(data => {
@@ -85,6 +88,7 @@ function register() {
         passwordInput.value = ""
         storeNameInput.value = ""
         storeDescInput.value = ""
+        storeAddressInput.value = ""
       }
     })
     .catch(err => alert("Registration failed"))
@@ -106,7 +110,16 @@ function loadStoreData() {
     productsUl.innerHTML = ""
     store.products.forEach(p => {
       const li = document.createElement("li")
-      li.textContent = `${p.name} - $${p.price}`
+      li.innerHTML = `
+        <div>
+          <strong>${p.name}</strong> - $${p.price} 
+          <span style="color: ${p.stock > 0 ? 'green' : 'red'}">(Stock: ${p.stock})</span>
+        </div>
+        <div>
+          <input type="number" id="stock-${p.id}" placeholder="New stock" min="0" style="width: 100px; margin-right: 5px;" />
+          <button onclick="updateStock('${p.id}')">Update Stock</button>
+        </div>
+      `
       productsUl.appendChild(li)
     })
   })
@@ -146,16 +159,45 @@ toggleOpenBtn.onclick = () => {
     })
 }
 
+function updateStock(productId) {
+  if (!currentStore) return
+  const stockInput = document.getElementById(`stock-${productId}`)
+  const newStock = parseInt(stockInput.value)
+  if (isNaN(newStock) || newStock < 0) return alert("Enter a valid stock quantity")
+  
+  fetch(`${API}/stores/${currentStore.id}/products/${productId}/stock`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", "x-auth-token": authToken },
+    body: JSON.stringify({ stock: newStock })
+  })
+    .then(r => r.json())
+    .then(data => {
+      if (data.message) {
+        alert(data.message)
+      } else {
+        stockInput.value = ""
+        loadStoreData()
+      }
+    })
+    .catch(err => alert("Failed to update stock"))
+}
+
 createBtn.onclick = () => {
   if (!currentStore) return
   const name = prodName.value.trim()
   const price = parseFloat(prodPrice.value)
-  if (!name || isNaN(price)) return alert("Enter name and price")
+  const stock = parseInt(prodStock.value)
+  if (!name || isNaN(price) || isNaN(stock)) return alert("Enter name, price, and stock")
   fetch(`${API}/stores/${currentStore.id}/products`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-auth-token": authToken },
-    body: JSON.stringify({ name, price })
-  }).then(() => { prodName.value = ""; prodPrice.value = ""; loadStoreData() })
+    body: JSON.stringify({ name, price, stock })
+  }).then(() => { 
+    prodName.value = ""; 
+    prodPrice.value = ""; 
+    prodStock.value = ""; 
+    loadStoreData() 
+  })
 }
 
 // Initialize

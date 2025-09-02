@@ -4,20 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APP 3</title>
+    <title>Driver App</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <h1>Driver App</h1>
-    <section>
-        <button id="refresh">Refresh Available</button>
-        <ul id="available"></ul>
+    
+    <!-- Login/Register Section -->
+    <section id="auth-section">
+        <h2>Login / Register</h2>
+        <div>
+            <input id="username" placeholder="Username" />
+            <input id="password" placeholder="Password" type="password" />
+            <button id="login-btn">Login</button>
+            <button id="register-btn">Register</button>
+        </div>
+        <div id="register-fields" style="display: none;">
+            <input id="driver-name" placeholder="Full Name" />
+            <input id="driver-phone" placeholder="Phone Number" />
+            <input id="driver-vehicle" placeholder="Vehicle Type" />
+        </div>
     </section>
-    <section>
-        <h2>My Orders</h2>
-        <ul id="my-orders"></ul>
+    
+    <!-- Driver Dashboard (hidden until login) -->
+    <section id="driver-section" style="display: none;">
+        <div>
+            <span id="current-driver"></span>
+            <button id="logout-btn">Logout</button>
+        </div>
+        
+        <section>
+            <h2>Available Orders</h2>
+            <button id="refresh">Refresh Available</button>
+            <ul id="available"></ul>
+        </section>
+        
+        <section>
+            <h2>My Orders</h2>
+            <ul id="my-orders"></ul>
+        </section>
     </section>
+    
     <script src="index.js"></script>
 </body>
 

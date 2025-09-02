@@ -1,0 +1,10 @@
+[
+  {
+    "id": "d1",
+    "name": "Bob",
+    "username": "bob",
+    "password": "123",
+    "phone": "555-0123",
+    "vehicle": "Honda Civic"
+  }
+]

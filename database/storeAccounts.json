@@ -1,0 +1,14 @@
+[
+  {
+    "id": "sa1",
+    "storeId": "s1",
+    "username": "bodega",
+    "password": "123"
+  },
+  {
+    "id": "sa2",
+    "storeId": "s2",
+    "username": "pizza",
+    "password": "123"
+  }
+]

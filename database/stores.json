@@ -1,0 +1,16 @@
+[
+  {
+    "id": "s1",
+    "name": "Bodega Central",
+    "isOpen": true,
+    "description": "Mini market",
+    "address": "456 Oak Ave"
+  },
+  {
+    "id": "s2",
+    "name": "Pizza Nova",
+    "isOpen": true,
+    "description": "Italian pizzas",
+    "address": "789 Pine St"
+  }
+]

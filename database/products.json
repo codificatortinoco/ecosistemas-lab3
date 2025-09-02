@@ -1,0 +1,23 @@
+[
+  {
+    "id": "p1",
+    "storeId": "s1",
+    "name": "Water 500ml",
+    "price": 2,
+    "stock": 50
+  },
+  {
+    "id": "p2",
+    "storeId": "s1",
+    "name": "Chips",
+    "price": 3.5,
+    "stock": 23
+  },
+  {
+    "id": "p3",
+    "storeId": "s2",
+    "name": "Pepperoni Pizza",
+    "price": 12,
+    "stock": 10
+  }
+]

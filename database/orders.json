@@ -1,0 +1,17 @@
+[
+  {
+    "id": "o1756848258114_7wg4y828foa",
+    "consumerId": "u1756848238755_mgbadksk7sp",
+    "storeId": "s1",
+    "items": [
+      {
+        "productId": "p2",
+        "qty": 2,
+        "price": 3.5
+      }
+    ],
+    "address": "Av 3",
+    "payment": "apple_pay",
+    "status": "created"
+  }
+]

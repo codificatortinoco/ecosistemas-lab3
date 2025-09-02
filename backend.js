@@ -66,6 +66,15 @@ app.get("/users", async (req, res) => {
   }
 })
 
+app.get("/drivers", async (req, res) => {
+  try {
+    const drivers = await db.getAll('drivers')
+    res.status(200).send(drivers)
+  } catch (error) {
+    res.status(500).send({ message: "Error fetching drivers" })
+  }
+})
+
 // User authentication
 app.post("/users/register", async (req, res) => {
   try {

@@ -12,5 +12,12 @@
     "isOpen": true,
     "description": "Italian pizzas",
     "address": "789 Pine St"
+  },
+  {
+    "id": "s1756849902709_83racbyvzvn",
+    "name": "Donde Lore",
+    "description": "Chuzo",
+    "address": "Av 5",
+    "isOpen": true
   }
 ]

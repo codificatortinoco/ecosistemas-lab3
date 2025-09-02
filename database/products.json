@@ -4,20 +4,27 @@
     "storeId": "s1",
     "name": "Water 500ml",
     "price": 2,
-    "stock": 50
+    "stock": 46
   },
   {
     "id": "p2",
     "storeId": "s1",
     "name": "Chips",
     "price": 3.5,
-    "stock": 23
+    "stock": 20
   },
   {
     "id": "p3",
     "storeId": "s2",
     "name": "Pepperoni Pizza",
     "price": 12,
-    "stock": 10
+    "stock": 9
+  },
+  {
+    "id": "p1756850287124_zfj3r744qd",
+    "storeId": "s1756849902709_83racbyvzvn",
+    "name": "Salchimonster",
+    "price": 45000,
+    "stock": 21
   }
 ]

@@ -9,42 +9,48 @@
 </head>
 
 <body>
-    <h1>Driver App</h1>
-    
-    <!-- Login/Register Section -->
-    <section id="auth-section">
-        <h2>Login / Register</h2>
-        <div>
-            <input id="username" placeholder="Username" />
-            <input id="password" placeholder="Password" type="password" />
-            <button id="login-btn">Login</button>
-            <button id="register-btn">Register</button>
-        </div>
-        <div id="register-fields" style="display: none;">
-            <input id="driver-name" placeholder="Full Name" />
-            <input id="driver-phone" placeholder="Phone Number" />
-            <input id="driver-vehicle" placeholder="Vehicle Type" />
-        </div>
-    </section>
-    
-    <!-- Driver Dashboard (hidden until login) -->
-    <section id="driver-section" style="display: none;">
-        <div>
-            <span id="current-driver"></span>
-            <button id="logout-btn">Logout</button>
-        </div>
+    <div class="container">
+        <h1>🚗 Driver App</h1>
         
-        <section>
-            <h2>Available Orders</h2>
-            <button id="refresh">Refresh Available</button>
-            <ul id="available"></ul>
+        <!-- Login/Register Section -->
+        <section id="auth-section">
+            <h2>Login / Register</h2>
+            <div class="auth-form">
+                <input id="username" placeholder="Username" />
+                <input id="password" placeholder="Password" type="password" />
+                <div id="register-fields" style="display: none;">
+                    <input id="driver-name" placeholder="Full Name" />
+                    <input id="driver-phone" placeholder="Phone Number" />
+                    <input id="driver-vehicle" placeholder="Vehicle Type" />
+                </div>
+                <button id="login-btn" class="btn-primary">Login</button>
+                <button id="register-btn" class="btn-secondary">Register</button>
+            </div>
         </section>
         
-        <section>
-            <h2>My Orders</h2>
-            <ul id="my-orders"></ul>
+        <!-- Driver Dashboard (hidden until login) -->
+        <section id="driver-section" style="display: none;">
+            <div class="driver-header">
+                <div class="driver-info">
+                    <span id="current-driver"></span>
+                </div>
+                <button id="logout-btn" class="btn-danger">Logout</button>
+            </div>
+            
+            <section class="section">
+                <div class="refresh-section">
+                    <h2>📦 Available Orders</h2>
+                    <button id="refresh" class="refresh-btn">🔄 Refresh</button>
+                </div>
+                <ul id="available"></ul>
+            </section>
+            
+            <section class="section">
+                <h2>🚚 My Orders</h2>
+                <ul id="my-orders"></ul>
+            </section>
         </section>
-    </section>
+    </div>
     
     <script src="index.js"></script>
 </body>

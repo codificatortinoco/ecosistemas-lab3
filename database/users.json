@@ -13,5 +13,12 @@
     "name": "Rosa Elvira",
     "address": "Av 3",
     "username": "Rosa Elvira"
+  },
+  {
+    "id": "u1756850366090_kfb1o6iwry",
+    "role": "consumer",
+    "name": "John Juan",
+    "address": "Av 23",
+    "username": "John"
   }
 ]

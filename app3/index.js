@@ -130,22 +130,36 @@ function loadAvailable() {
     availableUl.innerHTML = ""
     orders.forEach(o => {
       const li = document.createElement("li")
+      li.className = "available-order"
+      
       const btn = document.createElement("button")
       btn.textContent = "Accept Order"
+      btn.className = "accept-btn"
       btn.onclick = () => accept(o.id)
       
       const store = storeIdToStore[o.storeId]
       const storeName = store ? store.name : o.storeId
       const storeAddress = store ? store.address : ""
-      const itemsText = o.items.map(item => `${item.productId} x ${item.qty}`).join(", ")
       
+      const itemsList = o.items.map(item => {
+        return `<div class="order-item-detail">• ${item.productId} x ${item.qty} - $${(item.price * item.qty).toFixed(2)}</div>`
+      }).join("")
+      
+      const totalAmount = o.items.reduce((sum, item) => sum + (item.price * item.qty), 0)
       const paymentText = getPaymentMethodName(o.payment)
+      
       li.innerHTML = `
-        <div><strong>Order ${o.id}</strong></div>
-        <div>Store: ${storeName}${storeAddress ? ` (${storeAddress})` : ""}</div>
-        <div>Items: ${itemsText}</div>
-        <div>Delivery to: ${o.address}</div>
-        <div>Payment: ${paymentText}</div>
+        <div class="order-header">
+          <div class="order-id">Order #${o.id}</div>
+          <div class="order-status created">AVAILABLE</div>
+        </div>
+        <div class="order-details">
+          <div class="order-store">🏪 Store: ${storeName}${storeAddress ? ` (${storeAddress})` : ""}</div>
+          <div class="order-items">${itemsList}</div>
+          <div class="order-total">💰 Total: $${totalAmount.toFixed(2)}</div>
+          <div class="order-address">📍 Delivery to: ${o.address}</div>
+          <div class="order-payment">💳 Payment: ${paymentText}</div>
+        </div>
       `
       li.appendChild(btn)
       availableUl.appendChild(li)
@@ -160,19 +174,31 @@ function loadMyOrders() {
     myOrdersUl.innerHTML = ""
     all.filter(o => o.driverId === currentDriver.id).forEach(o => {
       const li = document.createElement("li")
+      li.className = "my-order"
       
       const store = storeIdToStore[o.storeId]
       const storeName = store ? store.name : o.storeId
       const storeAddress = store ? store.address : ""
-      const itemsText = o.items.map(item => `${item.productId} x ${item.qty}`).join(", ")
       
+      const itemsList = o.items.map(item => {
+        return `<div class="order-item-detail">• ${item.productId} x ${item.qty} - $${(item.price * item.qty).toFixed(2)}</div>`
+      }).join("")
+      
+      const totalAmount = o.items.reduce((sum, item) => sum + (item.price * item.qty), 0)
       const paymentText = getPaymentMethodName(o.payment)
+      
       li.innerHTML = `
-        <div><strong>Order ${o.id} - ${o.status.toUpperCase()}</strong></div>
-        <div>Store: ${storeName}${storeAddress ? ` (${storeAddress})` : ""}</div>
-        <div>Items: ${itemsText}</div>
-        <div>Delivery to: ${o.address}</div>
-        <div>Payment: ${paymentText}</div>
+        <div class="order-header">
+          <div class="order-id">Order #${o.id}</div>
+          <div class="order-status ${o.status}">${o.status.toUpperCase()}</div>
+        </div>
+        <div class="order-details">
+          <div class="order-store">🏪 Store: ${storeName}${storeAddress ? ` (${storeAddress})` : ""}</div>
+          <div class="order-items">${itemsList}</div>
+          <div class="order-total">💰 Total: $${totalAmount.toFixed(2)}</div>
+          <div class="order-address">📍 Delivery to: ${o.address}</div>
+          <div class="order-payment">💳 Payment: ${paymentText}</div>
+        </div>
       `
       
       // Add appropriate action button based on status

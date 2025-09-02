@@ -236,25 +236,88 @@ function decreaseQty(productId) {
 function loadOrders() {
   if (!currentUser) return
   
-  fetch(`${API}/orders`, {
-    headers: { "x-auth-token": authToken }
-  })
-    .then(r => r.json())
-    .then(all => {
-      ordersList.innerHTML = ""
-      all.filter(o => o.consumerId === currentUser.id).forEach(o => {
-        const li = document.createElement("li")
-        const store = storeIdToStore[o.storeId]
-        const storeName = store ? store.name : o.storeId
-        const itemsText = o.items.map(item => {
-          const product = productIdToProduct[item.productId]
-          return `${product ? product.name : item.productId} x ${item.qty}`
-        }).join(", ")
-        const paymentText = getPaymentMethodName(o.payment)
-        li.textContent = `${o.id} - ${o.status} from ${storeName}: ${itemsText} (Payment: ${paymentText})`
-        ordersList.appendChild(li)
-      })
+  // Fetch orders, stores, and drivers data
+  Promise.all([
+    fetch(`${API}/orders`).then(r => r.json()),
+    fetch(`${API}/stores`).then(r => r.json()),
+    fetch(`${API}/drivers`).then(r => r.json())
+  ]).then(([allOrders, allStores, allDrivers]) => {
+    ordersList.innerHTML = ""
+    
+    // Create maps for quick lookup
+    const storeMap = {}
+    allStores.forEach(store => {
+      storeMap[store.id] = store
     })
+    
+    const driverMap = {}
+    allDrivers.forEach(driver => {
+      driverMap[driver.id] = driver
+    })
+    
+    allOrders.filter(o => o.consumerId === currentUser.id).forEach(o => {
+      const li = document.createElement("li")
+      li.className = "order-item"
+      
+      const store = storeMap[o.storeId]
+      const storeName = store ? store.name : o.storeId
+      
+      const itemsList = o.items.map(item => {
+        const product = productIdToProduct[item.productId]
+        const productName = product ? product.name : item.productId
+        return `<div class="order-item-detail">• ${productName} x ${item.qty} - $${(item.price * item.qty).toFixed(2)}</div>`
+      }).join("")
+      
+      const totalAmount = o.items.reduce((sum, item) => sum + (item.price * item.qty), 0)
+      const paymentText = getPaymentMethodName(o.payment)
+      
+      // Get driver information if driver is assigned
+      let driverInfo = ""
+      if (o.driverId && driverMap[o.driverId]) {
+        const driver = driverMap[o.driverId]
+        driverInfo = `
+          <div class="order-driver">
+            🚗 Driver: ${driver.name}
+            <div class="driver-details">
+              📞 Phone: ${driver.phone || 'Not provided'}
+              🚙 Vehicle: ${driver.vehicle || 'Not specified'}
+            </div>
+          </div>
+        `
+      } else if (o.driverId) {
+        driverInfo = `<div class="order-driver">🚗 Driver ID: ${o.driverId}</div>`
+      }
+      
+      li.innerHTML = `
+        <div class="order-header">
+          <div class="order-id">Order #${o.id}</div>
+          <div class="order-status ${o.status}">${o.status.toUpperCase()}</div>
+        </div>
+        <div class="order-details">
+          <div class="order-store">🏪 Store: ${storeName}</div>
+          <div class="order-items">${itemsList}</div>
+          <div class="order-total">💰 Total: $${totalAmount.toFixed(2)}</div>
+          <div class="order-payment">💳 Payment: ${paymentText}</div>
+          <div class="order-address">📍 Address: ${o.address || 'Not specified'}</div>
+          ${driverInfo}
+        </div>
+      `
+      ordersList.appendChild(li)
+    })
+  }).catch(err => {
+    console.error("Error loading orders:", err)
+    ordersList.innerHTML = `
+      <li class="error-message">
+        <div class="error-content">
+          <div class="error-icon">⚠️</div>
+          <div class="error-text">
+            <strong>Error loading orders</strong>
+            <div class="error-details">Please check your connection and try refreshing</div>
+          </div>
+        </div>
+      </li>
+    `
+  })
 }
 
 placeOrderBtn.addEventListener("click", () => {
@@ -299,6 +362,9 @@ registerBtn.onclick = () => {
   }
 }
 logoutBtn.onclick = logout
+
+// Refresh orders button
+document.getElementById("refresh-orders").onclick = loadOrders
 
 // Initialize
 showAuth()

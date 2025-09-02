@@ -9,48 +9,61 @@
 </head>
 
 <body>
-    <h1>Store Admin</h1>
-    
-    <!-- Login/Register Section -->
-    <section id="auth-section">
-        <h2>Login / Register</h2>
-        <div>
-            <input id="username" placeholder="Username" />
-            <input id="password" placeholder="Password" type="password" />
-            <button id="login-btn">Login</button>
-            <button id="register-btn">Register</button>
-        </div>
-        <div id="register-fields" style="display: none;">
-            <input id="store-name" placeholder="Store Name" />
-            <input id="store-description" placeholder="Store Description" />
-            <input id="store-address" placeholder="Store Address" />
-        </div>
-    </section>
-    
-    <!-- Store Management Section (hidden until login) -->
-    <section id="store-section" style="display: none;">
-        <h2>Store Management</h2>
-        <div>
-            <span id="current-store"></span>
-            <button id="toggle-open">Toggle Open</button>
-            <button id="logout-btn">Logout</button>
-        </div>
-        <section>
-            <h2>Create Product</h2>
-            <input id="prod-name" placeholder="Name" />
-            <input id="prod-price" placeholder="Price" type="number" step="0.01" />
-            <input id="prod-stock" placeholder="Stock Quantity" type="number" min="0" />
-            <button id="create-product">Create</button>
+    <div class="container">
+        <h1>🏪 Store Admin</h1>
+        
+        <!-- Login/Register Section -->
+        <section id="auth-section">
+            <h2>Login / Register</h2>
+            <div class="auth-form">
+                <input id="username" placeholder="Username" />
+                <input id="password" placeholder="Password" type="password" />
+                <div id="register-fields" style="display: none;">
+                    <input id="store-name" placeholder="Store Name" />
+                    <input id="store-description" placeholder="Store Description" />
+                    <input id="store-address" placeholder="Store Address" />
+                </div>
+                <button id="login-btn" class="btn-primary">Login</button>
+                <button id="register-btn" class="btn-secondary">Register</button>
+            </div>
         </section>
-        <section>
-            <h2>Products</h2>
-            <ul id="products"></ul>
+        
+        <!-- Store Management Section (hidden until login) -->
+        <section id="store-section" style="display: none;">
+            <div class="store-header">
+                <div class="store-info">
+                    <span id="current-store"></span>
+                </div>
+                <div>
+                    <button id="toggle-open" class="toggle-btn">Toggle Open</button>
+                    <button id="logout-btn" class="btn-danger">Logout</button>
+                </div>
+            </div>
+            
+            <section class="section">
+                <h2>➕ Create Product</h2>
+                <div class="create-product-form">
+                    <input id="prod-name" placeholder="Product Name" />
+                    <input id="prod-price" placeholder="Price" type="number" step="0.01" />
+                    <input id="prod-stock" placeholder="Stock Quantity" type="number" min="0" />
+                    <button id="create-product" class="btn-primary">Create</button>
+                </div>
+            </section>
+            
+            <section class="section">
+                <h2>📦 Products</h2>
+                <ul id="products"></ul>
+            </section>
+            
+            <section class="section">
+                <div class="refresh-section">
+                    <h2>📋 Orders</h2>
+                    <button id="refresh-orders" class="refresh-btn">🔄 Refresh</button>
+                </div>
+                <ul id="orders"></ul>
+            </section>
         </section>
-        <section>
-            <h2>Orders</h2>
-            <ul id="orders"></ul>
-        </section>
-    </section>
+    </div>
 
     <script src="index.js"></script>
 

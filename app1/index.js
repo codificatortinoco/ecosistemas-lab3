@@ -123,30 +123,37 @@ function loadStores() {
     .then(r => r.json())
     .then(stores => {
       storesList.innerHTML = ""
+      storesList.style.display = "flex"
+      storesList.style.flexWrap = "wrap"
+      storesList.style.gap = "15px"
+      storesList.style.padding = "0"
+      storesList.style.margin = "0"
+      
       stores.forEach(store => {
         storeIdToStore[store.id] = store
         const li = document.createElement("li")
-        const imageHtml = store.imageUrl ? `<img src="${store.imageUrl}" alt="${store.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 15px;" onerror="this.style.display='none'">` : ''
+        const imageHtml = store.imageUrl ? `<img src="${store.imageUrl}" alt="${store.name}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px; margin-bottom: 10px;" onerror="this.style.display='none'">` : ''
         li.innerHTML = `
-          <div style="display: flex; align-items: center; padding: 15px; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 15px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s;">
+          <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #e0e0e0; border-radius: 16px; background-color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; width: 200px; min-height: 250px; text-align: center;">
             ${imageHtml}
-            <div style="display: flex; flex-direction: column; flex: 1;">
-              <span style="font-weight: bold; font-size: 1.2em; margin-bottom: 5px;">${store.name}</span>
-              <span style="font-size: 0.9em; color: ${store.isOpen ? '#4CAF50' : '#f44336'}; margin-bottom: 3px;">${store.isOpen ? "🟢 Open" : "🔴 Closed"}</span>
-              <span style="font-size: 0.85em; color: #666;">${store.address || "No address provided"}</span>
+            <div style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+              <span style="font-weight: bold; font-size: 1.1em; margin-bottom: 8px; color: #333;">${store.name}</span>
+              <span style="font-size: 0.9em; color: ${store.isOpen ? '#4CAF50' : '#f44336'}; margin-bottom: 5px; font-weight: 500;">${store.isOpen ? "🟢 Open" : "🔴 Closed"}</span>
+              <span style="font-size: 0.8em; color: #666; line-height: 1.3; word-wrap: break-word;">${store.address || "No address provided"}</span>
             </div>
           </div>
         `
         li.style.cursor = "pointer"
         li.style.listStyle = "none"
+        li.style.margin = "0"
         li.onclick = () => loadStore(store.id)
         li.onmouseover = () => {
-          li.querySelector('div').style.transform = "translateY(-2px)"
-          li.querySelector('div').style.boxShadow = "0 4px 8px rgba(0,0,0,0.15)"
+          li.querySelector('div').style.transform = "translateY(-3px)"
+          li.querySelector('div').style.boxShadow = "0 6px 16px rgba(0,0,0,0.15)"
         }
         li.onmouseout = () => {
           li.querySelector('div').style.transform = "translateY(0)"
-          li.querySelector('div').style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)"
+          li.querySelector('div').style.boxShadow = "0 2px 8px rgba(0,0,0,0.1)"
         }
         storesList.appendChild(li)
       })

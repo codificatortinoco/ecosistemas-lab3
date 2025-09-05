@@ -126,15 +126,28 @@ function loadStores() {
       stores.forEach(store => {
         storeIdToStore[store.id] = store
         const li = document.createElement("li")
-        const imageHtml = store.imageUrl ? `<img src="${store.imageUrl}" alt="${store.name}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 4px; margin-right: 8px;" onerror="this.style.display='none'">` : ''
+        const imageHtml = store.imageUrl ? `<img src="${store.imageUrl}" alt="${store.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin-right: 15px;" onerror="this.style.display='none'">` : ''
         li.innerHTML = `
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; padding: 15px; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 15px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s;">
             ${imageHtml}
-            <span>${store.name} ${store.isOpen ? "(open)" : "(closed)"}${store.address ? ` - ${store.address}` : ""}</span>
+            <div style="display: flex; flex-direction: column; flex: 1;">
+              <span style="font-weight: bold; font-size: 1.2em; margin-bottom: 5px;">${store.name}</span>
+              <span style="font-size: 0.9em; color: ${store.isOpen ? '#4CAF50' : '#f44336'}; margin-bottom: 3px;">${store.isOpen ? "🟢 Open" : "🔴 Closed"}</span>
+              <span style="font-size: 0.85em; color: #666;">${store.address || "No address provided"}</span>
+            </div>
           </div>
         `
         li.style.cursor = "pointer"
+        li.style.listStyle = "none"
         li.onclick = () => loadStore(store.id)
+        li.onmouseover = () => {
+          li.querySelector('div').style.transform = "translateY(-2px)"
+          li.querySelector('div').style.boxShadow = "0 4px 8px rgba(0,0,0,0.15)"
+        }
+        li.onmouseout = () => {
+          li.querySelector('div').style.transform = "translateY(0)"
+          li.querySelector('div').style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)"
+        }
         storesList.appendChild(li)
       })
     })
@@ -164,17 +177,20 @@ function loadStore(storeId) {
           btn.style.backgroundColor = "#f44336"
         }
         
-        const imageHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 8px;" onerror="this.style.display='none'">` : ''
+        const imageHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; margin-right: 12px;" onerror="this.style.display='none'">` : ''
         li.innerHTML = `
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; padding: 12px; border: 1px solid #e0e0e0; border-radius: 10px; margin-bottom: 10px; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
             ${imageHtml}
-            <span>${p.name} - ${formatCurrency(p.price)} 
-              <span style="color: ${p.stock > 0 ? 'green' : 'red'}; font-size: 0.9em;">
-                (${p.stock} available)
+            <div style="display: flex; flex-direction: column; flex: 1;">
+              <span style="font-weight: bold; font-size: 1.1em; margin-bottom: 3px;">${p.name}</span>
+              <span style="font-size: 1em; color: #2E7D32; font-weight: 600; margin-bottom: 2px;">${formatCurrency(p.price)}</span>
+              <span style="font-size: 0.85em; color: ${p.stock > 0 ? '#4CAF50' : '#f44336'};">
+                ${p.stock > 0 ? `📦 ${p.stock} available` : '❌ Out of stock'}
               </span>
-            </span>
+            </div>
           </div>
         `
+        li.style.listStyle = "none"
         li.appendChild(btn)
         productsList.appendChild(li)
       })

@@ -126,11 +126,20 @@ function loadStores() {
       stores.forEach(store => {
         storeIdToStore[store.id] = store
         const li = document.createElement("li")
-        li.textContent = `${store.name} ${store.isOpen ? "(open)" : "(closed)"}${store.address ? ` - ${store.address}` : ""}`
+        const imageHtml = store.imageUrl ? `<img src="${store.imageUrl}" alt="${store.name}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 4px; margin-right: 8px;" onerror="this.style.display='none'">` : ''
+        li.innerHTML = `
+          <div style="display: flex; align-items: center;">
+            ${imageHtml}
+            <span>${store.name} ${store.isOpen ? "(open)" : "(closed)"}${store.address ? ` - ${store.address}` : ""}</span>
+          </div>
+        `
         li.style.cursor = "pointer"
         li.onclick = () => loadStore(store.id)
         storesList.appendChild(li)
       })
+    })
+    .catch(err => {
+      console.error("Error loading stores:", err)
     })
 }
 
@@ -155,16 +164,23 @@ function loadStore(storeId) {
           btn.style.backgroundColor = "#f44336"
         }
         
+        const imageHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 8px;" onerror="this.style.display='none'">` : ''
         li.innerHTML = `
-          <span>${p.name} - ${formatCurrency(p.price)} 
-            <span style="color: ${p.stock > 0 ? 'green' : 'red'}; font-size: 0.9em;">
-              (${p.stock} available)
+          <div style="display: flex; align-items: center;">
+            ${imageHtml}
+            <span>${p.name} - ${formatCurrency(p.price)} 
+              <span style="color: ${p.stock > 0 ? 'green' : 'red'}; font-size: 0.9em;">
+                (${p.stock} available)
+              </span>
             </span>
-          </span>
+          </div>
         `
         li.appendChild(btn)
         productsList.appendChild(li)
       })
+    })
+    .catch(err => {
+      console.error("Error loading store:", err)
     })
 }
 

@@ -11,6 +11,7 @@ const registerFields = document.getElementById("register-fields")
 const storeNameInput = document.getElementById("store-name")
 const storeDescInput = document.getElementById("store-description")
 const storeAddressInput = document.getElementById("store-address")
+const storeImageInput = document.getElementById("store-image")
 const currentStoreSpan = document.getElementById("current-store")
 const logoutBtn = document.getElementById("logout-btn")
 
@@ -22,6 +23,7 @@ const createBtn = document.getElementById("create-product")
 const prodName = document.getElementById("prod-name")
 const prodPrice = document.getElementById("prod-price")
 const prodStock = document.getElementById("prod-stock")
+const prodImage = document.getElementById("prod-image")
 
 let currentStore = null
 let authToken = null
@@ -69,13 +71,14 @@ function register() {
   const storeName = storeNameInput.value.trim()
   const storeDesc = storeDescInput.value.trim()
   const storeAddress = storeAddressInput.value.trim()
+  const storeImage = storeImageInput.value.trim()
   
   if (!username || !password || !storeName) return alert("Enter all required fields")
   
   fetch(`${API}/stores/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password, name: storeName, description: storeDesc, address: storeAddress })
+    body: JSON.stringify({ username, password, name: storeName, description: storeDesc, address: storeAddress, imageUrl: storeImage })
   })
     .then(r => r.json())
     .then(data => {
@@ -89,6 +92,7 @@ function register() {
         storeNameInput.value = ""
         storeDescInput.value = ""
         storeAddressInput.value = ""
+        storeImageInput.value = ""
       }
     })
     .catch(err => alert("Registration failed"))
@@ -110,10 +114,14 @@ function loadStoreData() {
     productsUl.innerHTML = ""
     store.products.forEach(p => {
       const li = document.createElement("li")
+      const imageHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px;" onerror="this.style.display='none'">` : ''
       li.innerHTML = `
-        <div>
-          <strong>${p.name}</strong> - $${p.price} 
-          <span style="color: ${p.stock > 0 ? 'green' : 'red'}">(Stock: ${p.stock})</span>
+        <div style="display: flex; align-items: center; margin-bottom: 8px;">
+          ${imageHtml}
+          <div>
+            <strong>${p.name}</strong> - $${p.price} 
+            <span style="color: ${p.stock > 0 ? 'green' : 'red'}">(Stock: ${p.stock})</span>
+          </div>
         </div>
         <div>
           <input type="number" id="stock-${p.id}" placeholder="New stock" min="0" style="width: 100px; margin-right: 5px;" />
@@ -247,15 +255,17 @@ createBtn.onclick = () => {
   const name = prodName.value.trim()
   const price = parseFloat(prodPrice.value)
   const stock = parseInt(prodStock.value)
+  const imageUrl = prodImage.value.trim()
   if (!name || isNaN(price) || isNaN(stock)) return alert("Enter name, price, and stock")
   fetch(`${API}/stores/${currentStore.id}/products`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-auth-token": authToken },
-    body: JSON.stringify({ name, price, stock })
+    body: JSON.stringify({ name, price, stock, imageUrl })
   }).then(() => { 
     prodName.value = ""; 
     prodPrice.value = ""; 
     prodStock.value = ""; 
+    prodImage.value = ""; 
     loadStoreData() 
   })
 }

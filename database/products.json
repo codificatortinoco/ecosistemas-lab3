@@ -4,34 +4,55 @@
     "storeId": "s1",
     "name": "Water 500ml",
     "price": 2,
-    "stock": 46
+    "stock": 46,
+    "imageUrl": "https://images.unsplash.com/photo-1548839140-5c7b3b0e8b6b?w=100&h=100&fit=crop"
   },
   {
     "id": "p2",
     "storeId": "s1",
     "name": "Chips",
     "price": 3.5,
-    "stock": 20
+    "stock": 20,
+    "imageUrl": "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=100&h=100&fit=crop"
   },
   {
     "id": "p3",
     "storeId": "s2",
     "name": "Pepperoni Pizza",
     "price": 12,
-    "stock": 6
+    "stock": 6,
+    "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=100&h=100&fit=crop"
   },
   {
     "id": "p1756850287124_zfj3r744qd",
     "storeId": "s1756849902709_83racbyvzvn",
     "name": "Salchimonster",
     "price": 45000,
-    "stock": 18
+    "stock": 18,
+    "imageUrl": ""
   },
   {
     "id": "p1757074574671_xluxpzjqxb",
     "storeId": "s1756849902709_83racbyvzvn",
     "name": "Salchipapa",
     "price": 36500,
-    "stock": 22
+    "stock": 22,
+    "imageUrl": ""
+  },
+  {
+    "id": "p1757075911250_wg8yy1kabd",
+    "storeId": "s1757075883700_9wd6o7y8uql",
+    "name": "Chuzo desgranado",
+    "price": 12500,
+    "stock": 12,
+    "imageUrl": ""
+  },
+  {
+    "id": "p1757076708112_exml6nxgg3",
+    "storeId": "s1757076664763_g3whcfutwvd",
+    "name": "comi",
+    "price": 23500,
+    "stock": 3,
+    "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.GdZ0WwpuGGs3SzcWVU3bmAHaFj?rs=1&pid=ImgDetMain&o=7&rm=3"
   }
 ]

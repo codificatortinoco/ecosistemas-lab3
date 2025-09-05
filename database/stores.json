@@ -4,20 +4,39 @@
     "name": "Bodega Central",
     "isOpen": true,
     "description": "Mini market",
-    "address": "456 Oak Ave"
+    "address": "456 Oak Ave",
+    "imageUrl": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=100&h=100&fit=crop"
   },
   {
     "id": "s2",
     "name": "Pizza Nova",
     "isOpen": true,
     "description": "Italian pizzas",
-    "address": "789 Pine St"
+    "address": "789 Pine St",
+    "imageUrl": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=100&h=100&fit=crop"
   },
   {
     "id": "s1756849902709_83racbyvzvn",
     "name": "Donde Lore",
     "description": "Chuzo",
     "address": "Av 5",
-    "isOpen": true
+    "isOpen": true,
+    "imageUrl": ""
+  },
+  {
+    "id": "s1757075883700_9wd6o7y8uql",
+    "name": "Maña Alimaña",
+    "description": "pura comida de verdad",
+    "address": "Av 3-43",
+    "isOpen": true,
+    "imageUrl": ""
+  },
+  {
+    "id": "s1757076664763_g3whcfutwvd",
+    "name": "lore",
+    "description": "comida",
+    "address": "Av 23#43",
+    "isOpen": true,
+    "imageUrl": "https://tse3.mm.bing.net/th/id/OIP.GdZ0WwpuGGs3SzcWVU3bmAHaFj?rs=1&pid=ImgDetMain&o=7&rm=3"
   }
 ]

@@ -100,8 +100,8 @@ class FileSystemDatabase {
     ];
 
     const defaultStores = [
-      { id: "s1", name: "Bodega Central", isOpen: true, description: "Mini market", address: "456 Oak Ave" },
-      { id: "s2", name: "Pizza Nova", isOpen: true, description: "Italian pizzas", address: "789 Pine St" }
+      { id: "s1", name: "Bodega Central", isOpen: true, description: "Mini market", address: "456 Oak Ave", imageUrl: "" },
+      { id: "s2", name: "Pizza Nova", isOpen: true, description: "Italian pizzas", address: "789 Pine St", imageUrl: "" }
     ];
 
     const defaultStoreAccounts = [
@@ -110,9 +110,9 @@ class FileSystemDatabase {
     ];
 
     const defaultProducts = [
-      { id: "p1", storeId: "s1", name: "Water 500ml", price: 2.0, stock: 50 },
-      { id: "p2", storeId: "s1", name: "Chips", price: 3.5, stock: 25 },
-      { id: "p3", storeId: "s2", name: "Pepperoni Pizza", price: 12.0, stock: 10 }
+      { id: "p1", storeId: "s1", name: "Water 500ml", price: 2.0, stock: 50, imageUrl: "" },
+      { id: "p2", storeId: "s1", name: "Chips", price: 3.5, stock: 25, imageUrl: "" },
+      { id: "p3", storeId: "s2", name: "Pepperoni Pizza", price: 12.0, stock: 10, imageUrl: "" }
     ];
 
     // Write all default data

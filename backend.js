@@ -116,7 +116,7 @@ app.post("/users/login", async (req, res) => {
 
 app.post("/stores/register", async (req, res) => {
   try {
-    const { name, description, address, username, password } = req.body
+    const { name, description, address, username, password, imageUrl } = req.body
     if (!name || !username || !password) {
       return res.status(400).send({ message: "Missing required fields" })
     }
@@ -128,7 +128,7 @@ app.post("/stores/register", async (req, res) => {
     const storeId = `s${Date.now()}_${Math.random().toString(36).slice(2)}`
     const accountId = `sa${Date.now()}_${Math.random().toString(36).slice(2)}`
     
-    const newStore = { id: storeId, name, description: description || "", address: address || "", isOpen: true }
+    const newStore = { id: storeId, name, description: description || "", address: address || "", isOpen: true, imageUrl: imageUrl || "" }
     const newAccount = { id: accountId, storeId, username, password }
     
     await db.create('stores', newStore)
@@ -230,12 +230,32 @@ app.patch("/stores/:id/toggle", requireStoreAuth, async (req, res) => {
   }
 })
 
+app.patch("/stores/:id", requireStoreAuth, async (req, res) => {
+  try {
+    const store = await db.getById('stores', req.params.id)
+    if (!store) return res.status(404).send({ message: "Store not found" })
+    
+    const { name, description, address, imageUrl } = req.body
+    const updates = {}
+    
+    if (name !== undefined) updates.name = name
+    if (description !== undefined) updates.description = description
+    if (address !== undefined) updates.address = address
+    if (imageUrl !== undefined) updates.imageUrl = imageUrl
+    
+    const updatedStore = await db.update('stores', req.params.id, updates)
+    res.send(updatedStore)
+  } catch (error) {
+    res.status(500).send({ message: "Error updating store" })
+  }
+})
+
 app.post("/stores/:id/products", requireStoreAuth, async (req, res) => {
   try {
     const store = await db.getById('stores', req.params.id)
     if (!store) return res.status(404).send({ message: "Store not found" })
     
-    const { name, price, stock } = req.body
+    const { name, price, stock, imageUrl } = req.body
     if (!name || !price || stock === undefined) {
       return res.status(400).send({ message: "Missing required fields: name, price, stock" })
     }
@@ -245,7 +265,8 @@ app.post("/stores/:id/products", requireStoreAuth, async (req, res) => {
       storeId: store.id, 
       name, 
       price, 
-      stock: parseInt(stock) || 0 
+      stock: parseInt(stock) || 0,
+      imageUrl: imageUrl || ""
     }
     
     await db.create('products', product)
@@ -274,6 +295,31 @@ app.patch("/stores/:id/products/:productId/stock", requireStoreAuth, async (req,
     res.send(updatedProduct)
   } catch (error) {
     res.status(500).send({ message: "Error updating product stock" })
+  }
+})
+
+app.patch("/stores/:id/products/:productId", requireStoreAuth, async (req, res) => {
+  try {
+    const store = await db.getById('stores', req.params.id)
+    if (!store) return res.status(404).send({ message: "Store not found" })
+    
+    const product = await db.getById('products', req.params.productId)
+    if (!product || product.storeId !== store.id) {
+      return res.status(404).send({ message: "Product not found" })
+    }
+    
+    const { name, price, stock, imageUrl } = req.body
+    const updates = {}
+    
+    if (name !== undefined) updates.name = name
+    if (price !== undefined) updates.price = price
+    if (stock !== undefined) updates.stock = parseInt(stock) || 0
+    if (imageUrl !== undefined) updates.imageUrl = imageUrl
+    
+    const updatedProduct = await db.update('products', req.params.productId, updates)
+    res.send(updatedProduct)
+  } catch (error) {
+    res.status(500).send({ message: "Error updating product" })
   }
 })
 

@@ -7,10 +7,8 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-// Initialize file system database
 const db = new FileSystemDatabase()
 
-// Initialize database with default data on startup
 db.initializeDefaultData().catch(console.error)
 
 async function createSession(account) {
@@ -31,7 +29,6 @@ async function requireStoreAuth(req, res, next) {
     if (!token) return res.status(401).send({ message: "Missing auth token" })
     const session = await getSession(token)
     if (!session) return res.status(401).send({ message: "Invalid auth token" })
-    // If route has :id, ensure it matches the storeId of the session
     if (req.params && req.params.id && req.params.id !== session.storeId) {
       return res.status(403).send({ message: "Forbidden for this store" })
     }
@@ -56,7 +53,6 @@ async function requireDriverAuth(req, res, next) {
   }
 }
 
-// Basic resources
 app.get("/users", async (req, res) => {
   try {
     const users = await db.getAll('users')
@@ -75,7 +71,6 @@ app.get("/drivers", async (req, res) => {
   }
 })
 
-// User authentication
 app.post("/users/register", async (req, res) => {
   try {
     const { name, address, username, password } = req.body
@@ -83,7 +78,6 @@ app.post("/users/register", async (req, res) => {
       return res.status(400).send({ message: "Missing required fields" })
     }
     
-    // Check if username already exists
     if (await db.isUsernameTaken(username)) {
       return res.status(400).send({ message: "Username already exists" })
     }
@@ -120,7 +114,6 @@ app.post("/users/login", async (req, res) => {
   }
 })
 
-// Store authentication
 app.post("/stores/register", async (req, res) => {
   try {
     const { name, description, address, username, password } = req.body
@@ -128,7 +121,6 @@ app.post("/stores/register", async (req, res) => {
       return res.status(400).send({ message: "Missing required fields" })
     }
     
-    // Check if username already exists
     if (await db.isUsernameTaken(username)) {
       return res.status(400).send({ message: "Username already exists" })
     }
@@ -165,7 +157,6 @@ app.post("/stores/login", async (req, res) => {
   }
 })
 
-// Driver authentication
 app.post("/drivers/register", async (req, res) => {
   try {
     const { name, phone, vehicle, username, password } = req.body
@@ -173,7 +164,6 @@ app.post("/drivers/register", async (req, res) => {
       return res.status(400).send({ message: "Missing required fields" })
     }
     
-    // Check if username already exists
     if (await db.isUsernameTaken(username)) {
       return res.status(400).send({ message: "Username already exists" })
     }
@@ -210,7 +200,6 @@ app.post("/drivers/login", async (req, res) => {
   }
 })
 
-// Stores
 app.get("/stores", async (req, res) => {
   try {
     const stores = await db.getAll('stores')
@@ -241,7 +230,6 @@ app.patch("/stores/:id/toggle", requireStoreAuth, async (req, res) => {
   }
 })
 
-// Products (store admin)
 app.post("/stores/:id/products", requireStoreAuth, async (req, res) => {
   try {
     const store = await db.getById('stores', req.params.id)
@@ -267,7 +255,6 @@ app.post("/stores/:id/products", requireStoreAuth, async (req, res) => {
   }
 })
 
-// Update product stock
 app.patch("/stores/:id/products/:productId/stock", requireStoreAuth, async (req, res) => {
   try {
     const store = await db.getById('stores', req.params.id)
@@ -290,7 +277,6 @@ app.patch("/stores/:id/products/:productId/stock", requireStoreAuth, async (req,
   }
 })
 
-// Check product availability
 app.get("/products/:id/availability", async (req, res) => {
   try {
     const product = await db.getById('products', req.params.id)
@@ -301,7 +287,6 @@ app.get("/products/:id/availability", async (req, res) => {
   }
 })
 
-// Orders
 app.get("/orders", async (req, res) => {
   try {
     const orders = await db.getAll('orders')
@@ -341,7 +326,6 @@ app.post("/orders", async (req, res) => {
   }
 })
 
-// Order management with driver authentication
 app.post("/orders/:id/accept", requireDriverAuth, async (req, res) => {
   try {
     const order = await db.getById('orders', req.params.id)
@@ -386,5 +370,4 @@ app.post("/orders/:id/deliver", requireDriverAuth, async (req, res) => {
   }
 })
 
-// Export the app for use in other files
 module.exports = app

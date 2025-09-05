@@ -18,13 +18,20 @@
     "storeId": "s2",
     "name": "Pepperoni Pizza",
     "price": 12,
-    "stock": 9
+    "stock": 6
   },
   {
     "id": "p1756850287124_zfj3r744qd",
     "storeId": "s1756849902709_83racbyvzvn",
     "name": "Salchimonster",
     "price": 45000,
-    "stock": 21
+    "stock": 18
+  },
+  {
+    "id": "p1757074574671_xluxpzjqxb",
+    "storeId": "s1756849902709_83racbyvzvn",
+    "name": "Salchipapa",
+    "price": 36500,
+    "stock": 22
   }
 ]

@@ -3,6 +3,9 @@ npm install
 npm start
 ```
 
+Diagrama de flujo: https://drive.google.com/file/d/1BSwTQ0zkJtvEZr3ykQqndteWzxu-kuIw/view?usp=sharing
+
+
 ## Apps
 
 - **Consumer:** http://localhost:5050/app1/
